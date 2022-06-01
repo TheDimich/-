@@ -1,0 +1,53 @@
+from tkinter import *
+from tkinter import messagebox
+from scipy import integrate
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+
+h = 300
+er = 1
+e0 = 8.85 * 10**(-12)
+
+def show_graph():
+    t = np.arange(0, 1000)
+    plt.plot(t, (float(imax.get()))*(np.exp(-t/(20*np.exp(1)-6))-np.exp(t/(2*np.exp(1)-6))))
+    plt.show()
+    
+
+def func(time):
+
+    return ((float(imax.get()))*(np.exp(-time/(20*np.exp(1)-6))-np.exp(time/(2*np.exp(1)-6)))**2)*float(res.get())
+
+def show_int_result():
+    w = integrate.quad(func, 0, 2000)[0]
+    messagebox.showinfo("Р РµР·СѓР»СЊС‚Р°С‚ РІС‹С‡РёСЃР»РµРЅРёСЏ", w)
+
+root = Tk()
+root.title("GUI РЅР° Python")
+
+root.geometry("300x400")
+
+
+imax = StringVar()
+res = StringVar()
+
+imax_entry = Entry(textvariable=imax)
+imax_entry.grid(row = 1, column = 1, columnspan = 1)
+
+res_entry = Entry(textvariable=res)
+res_entry.grid(row = 2, column = 1, columnspan = 1)
+
+
+Label(text="РђРјРїР»РёС‚СѓРґР° С‚РѕРєР°:").grid(row=1, column=0)
+Label(text="РЎРѕРїСЂРѕС‚РёРІР»РµРЅРёРµ СЂРµР·РёСЃС‚РѕСЂР°:").grid(row=2, column=0)
+
+
+
+int_button = Button(text="Р’С‹С‡РёСЃР»РёС‚СЊ СЂР°СЃСЃРµРёРІР°РµРјСѓСЋ СЌРЅРµСЂРіРёСЋ", command=show_int_result)
+int_button.place(relx=.5, rely=.5, anchor="c")
+
+graph_button = Button(text="РџРѕСЃС‚СЂРѕРёС‚СЊ РіСЂР°С„РёРє", command=show_graph)
+graph_button.place(relx=.5, rely=.6, anchor="c")
+
+root.mainloop()
